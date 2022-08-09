@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Player/Player.png" type="Texture" id=2]
@@ -10,6 +10,10 @@
 [ext_resource path="res://Player/IdleLeft.tres" type="Animation" id=8]
 [ext_resource path="res://Player/IdleDown.tres" type="Animation" id=9]
 [ext_resource path="res://Player/IdleRight.tres" type="Animation" id=10]
+[ext_resource path="res://Player/AttackDown.tres" type="Animation" id=11]
+[ext_resource path="res://Player/AttackRight.tres" type="Animation" id=12]
+[ext_resource path="res://Player/AttackLeft.tres" type="Animation" id=13]
+[ext_resource path="res://Player/AttackUp.tres" type="Animation" id=14]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -29,6 +33,31 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 1 ]
 }
+
+[sub_resource type="AnimationNodeAnimation" id=21]
+animation = "AttackLeft"
+
+[sub_resource type="AnimationNodeAnimation" id=22]
+animation = "AttackDown"
+
+[sub_resource type="AnimationNodeAnimation" id=23]
+animation = "AttackRight"
+
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "AttackUp"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=25]
+blend_point_0/node = SubResource( 21 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 22 )
+blend_point_1/pos = Vector2( 0, 1.1 )
+blend_point_2/node = SubResource( 23 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 24 )
+blend_point_3/pos = Vector2( 0, -1.1 )
+min_space = Vector2( -1, -1.1 )
+max_space = Vector2( 1, 1.1 )
+blend_mode = 1
 
 [sub_resource type="AnimationNodeAnimation" id=9]
 animation = "IdleLeft"
@@ -84,13 +113,20 @@ blend_mode = 1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+
 [sub_resource type="AnimationNodeStateMachine" id=7]
+states/Attack/node = SubResource( 25 )
+states/Attack/position = Vector2( 382.457, 221.667 )
 states/Idle/node = SubResource( 13 )
 states/Idle/position = Vector2( 381.667, 100.333 )
 states/Run/node = SubResource( 18 )
 states/Run/position = Vector2( 583, 99.8889 )
-transitions = [ "Idle", "Run", SubResource( 19 ), "Run", "Idle", SubResource( 20 ) ]
+transitions = [ "Idle", "Run", SubResource( 19 ), "Run", "Idle", SubResource( 20 ), "Idle", "Attack", SubResource( 26 ), "Attack", "Idle", SubResource( 27 ) ]
 start_node = "Idle"
+graph_offset = Vector2( 44, 14 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=8]
 
@@ -108,6 +144,10 @@ rotation = -1.5708
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/AttackDown = ExtResource( 11 )
+anims/AttackLeft = ExtResource( 13 )
+anims/AttackRight = ExtResource( 12 )
+anims/AttackUp = ExtResource( 14 )
 anims/IdleDown = ExtResource( 9 )
 anims/IdleLeft = ExtResource( 8 )
 anims/IdleRight = ExtResource( 10 )
@@ -121,7 +161,7 @@ anims/RunUp = ExtResource( 3 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 7 )
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/playback = SubResource( 8 )
+parameters/Attack/blend_position = Vector2( 0, 0 )
 parameters/Idle/blend_position = Vector2( 0, 0 )
 parameters/Run/blend_position = Vector2( 0, 0 )
