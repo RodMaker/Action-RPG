@@ -7,7 +7,7 @@
 [ext_resource path="res://Stats.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Enemies/PlayerDetectionZone.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Overlap/Hitbox.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Overlap/SofCollision.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Overlap/SoftCollision.tscn" type="PackedScene" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -60,6 +60,7 @@ script = ExtResource( 4 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 6 )
 animation = "Fly"
+frame = 3
 playing = true
 offset = Vector2( 0, -12 )
 
@@ -91,9 +92,9 @@ collision_mask = 4
 position = Vector2( 0, -13 )
 shape = SubResource( 10 )
 
-[node name="SofCollision" parent="." instance=ExtResource( 8 )]
+[node name="SoftCollision" parent="." instance=ExtResource( 8 )]
 
-[node name="CollisionShape2D" parent="SofCollision" index="0"]
+[node name="CollisionShape2D" parent="SoftCollision" index="0"]
 shape = SubResource( 11 )
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
@@ -102,4 +103,4 @@ shape = SubResource( 11 )
 [editable path="Hurtbox"]
 [editable path="PlayerDetectionZone"]
 [editable path="Hitbox"]
-[editable path="SofCollision"]
+[editable path="SoftCollision"]
